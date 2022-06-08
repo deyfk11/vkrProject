@@ -1,0 +1,8 @@
+.header {
+    background-color: black !important;
+}
+.link {
+    color: white;
+    margin-right: 30px;
+    cursor: pointer;
+}

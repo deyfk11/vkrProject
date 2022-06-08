@@ -1,0 +1,40 @@
+.wrapper {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+}
+form {
+    width: 400px;
+}
+.inputField {
+    margin-top: 20px !important;
+    width: 100%;
+}
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+.dateField {
+    margin-top: 20px !important;
+    width: 100% !important;
+}
+.buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+.button {
+    width: 45%;
+    background-color: black !important;
+    color: white !important;
+}
+.cancelButton {
+    width: 45%;
+    background-color: red !important;
+    color: white !important;
+}
+.selectField {
+    width: 100% !important;
+}

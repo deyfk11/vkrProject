@@ -1,0 +1,39 @@
+.wrapper {
+    text-align: center;
+    margin-top: 200px;
+    display: flex;
+    justify-content: center;
+}
+.table {
+    width: 100%;
+    border: 1px solid #000000;
+}
+.listUsers_wrapper {
+    width: 70%;
+}
+.adminRow {
+    background-color: green;
+}
+.disableUserRow {
+    background-color: red;
+    color: white !important;
+}
+.choosedRow {
+    border: 2px solid blue !important;
+}
+tr {
+    cursor: pointer;
+}
+.button {
+    border-radius: 15px;
+    height: 45px;
+    width: 300px;
+    margin: 20px 20px 20px 0;
+    color: white;
+    background-color: black;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.flex {
+    display: flex;
+}
