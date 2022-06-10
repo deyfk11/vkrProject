@@ -36,16 +36,19 @@ exports.addUser = (req, res) => {
 }
 exports.signIn = (req, res) => {
     const body = req.body
-    db.query("SELECT ID, RoleId, Email, Password FROM users WHERE Email = '" + body.email + "'", (error, rows) => {
+    db.query("SELECT ID, RoleId, Email, Active, Password FROM users WHERE Email = '" + body.email + "'", (error, rows) => {
         if (error) {
             response.status(400, error, res)
         }
         const row = JSON.parse(JSON.stringify(rows))
         console.log(row)
         if (rows.length <= 0) {
-            response.status(404, 'Пользователь не найден', res)
+            response.status(401, 'Пользователь не найден', res)
+            
+        } else if (row[0].Active === 0) {
+            response.status(401, {message: 'Учетная запись заблокирована', active: 0}, res)
         } else if (row[0].Password !== body.password) {
-            response.status(404, 'Введен неправильный логин или пароль', res)
+            response.status(401, {message: 'Введен неправильный логин или пароль'}, res)
         }
         else {
             response.status(200, {message: "Успешная авторизация", role: row[0].RoleId}, res)
@@ -60,6 +63,18 @@ exports.changeActiveUser = (req, res) => {
             response.status(400, error, res )
         } else {
             response.status(200, "Статус изменен", res)
+        }
+    })
+}
+exports.changeUserRole = (req, res) => {
+    const body = req.body
+    console.log(body)
+    db.query("UPDATE users SET RoleId = '" + body.roleId + "'  WHERE ID = '" + body.id + "'", (error, rows, fields) => {
+        if (error) {
+            console.log(error)
+            response.status(400, error, res )
+        } else {
+            response.status(200, "Роль изменена", res)
         }
     })
 

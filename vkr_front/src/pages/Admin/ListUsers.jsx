@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,7 +9,11 @@ import TableRow from '@mui/material/TableRow';
 
 import axios from '../../services/axios';
 
+import ChangeRoleModal from './ChangeRoleModal';
+
 const ListUsers = ({ users, offices, setUsers }) => {
+  const [openModal, setOpenModal] = useState(false);
+
   const findOffice = (officeId) => {
     const officeName = offices.find((office) => (office.id === officeId));
 
@@ -22,7 +27,20 @@ const ListUsers = ({ users, offices, setUsers }) => {
     const arrayUsers = users.map((user) => (user.id === choosedUser.id
       ? { ...user, active: choosedUser.active === 1 ? 0 : 1 } : user));
 
+    setChoosedUser({ ...choosedUser, active: choosedUser.active === 1 ? 0 : 1 });
+
     setUsers(arrayUsers);
+  };
+
+  const changeUserRole = async () => {
+    await axios.put('users/changeUserRole', { id: choosedUser.id, roleId: choosedUser.roleId === 1 ? 2 : 1 });
+
+    const arrayUsers = users.map((user) => (user.id === choosedUser.id
+      ? { ...user, roleId: choosedUser.roleId === 1 ? 2 : 1 } : user));
+
+    setUsers(arrayUsers);
+    setChoosedUser({ ...choosedUser, roleId: choosedUser.roleId === 1 ? 2 : 1 });
+    setOpenModal(true);
   };
 
   return (
@@ -46,19 +64,30 @@ const ListUsers = ({ users, offices, setUsers }) => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               onClick={() => setChoosedUser(row)}
             >
-              <TableCell className={(row.active === 0 && 'disableUserRow')}>{row.firstName}</TableCell>
-              <TableCell className={(row.active === 0 && 'disableUserRow')}>{row.lastName}</TableCell>
-              <TableCell className={(row.active === 0 && 'disableUserRow')}>{row.lastName}</TableCell>
-              <TableCell className={(row.active === 0 && 'disableUserRow')}>{row.roleId === 1 ? 'Administrator' : 'User'}</TableCell>
-              <TableCell className={(row.active === 0 && 'disableUserRow')}>{row.email}</TableCell>
-              <TableCell className={(row.active === 0 && 'disableUserRow')}>{findOffice(row.officeID)}</TableCell>
+              <TableCell className={(row.active === 0 ? 'disableUserRow' : '')}>{row.firstName}</TableCell>
+              <TableCell className={(row.active === 0 ? 'disableUserRow' : '')}>{row.lastName}</TableCell>
+              <TableCell className={(row.active === 0 ? 'disableUserRow' : '')}>{row.lastName}</TableCell>
+              <TableCell className={(row.active === 0 ? 'disableUserRow' : '')}>{row.roleId === 1 ? 'Administrator' : 'User'}</TableCell>
+              <TableCell className={(row.active === 0 ? 'disableUserRow' : '')}>{row.email}</TableCell>
+              <TableCell className={(row.active === 0 ? 'disableUserRow' : '')}>{findOffice(row.officeID)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
       <div className="flex">
-        <button className="button" type="button" onClick={() => changeActiveUser()}>Enable/Disable Login</button>
+        <Button className="button" type="button" variant="outlined" onClick={() => changeUserRole()}>Change Role</Button>
+        <Button className="button" type="button" variant="outlined" onClick={() => changeActiveUser()}>Enable/Disable Login</Button>
       </div>
+      {openModal
+      && (
+        <ChangeRoleModal
+          firstName={choosedUser.firstName}
+          lastName={choosedUser.lastName}
+          open={openModal}
+          role={choosedUser.roleId === 1 ? 'Administrator' : 'User'}
+          setOpen={setOpenModal}
+        />
+      ) }
     </div>
   );
 };

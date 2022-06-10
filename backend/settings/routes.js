@@ -11,4 +11,5 @@ module.exports = (app) => {
     app.route('/api/users/signin').post(usersController.signIn)
     app.route('/api/offices').get(officeController.getAllOffices)
     app.route('/api/users/changeActiveUser').put(usersController.changeActiveUser)
+    app.route('/api/users/changeUserRole').put(usersController.changeUserRole)
 }

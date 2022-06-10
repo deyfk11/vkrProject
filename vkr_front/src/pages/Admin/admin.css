@@ -28,11 +28,11 @@ tr {
     border-radius: 15px;
     height: 45px;
     width: 300px;
-    margin: 20px 20px 20px 0;
-    color: white;
-    background-color: black;
+    margin: 10px 20px 20px 0 !important;
     border: 1px solid black;
     cursor: pointer;
+    background-color: black !important;
+    color: white !important;
 }
 .flex {
     display: flex;
